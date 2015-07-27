@@ -1,18 +1,39 @@
 module TTT
+  ##
+  # Manages the Tic Tac Toe grid by
+  # setting and getting grid values and checking if the game has ended with a win or a draw.
   class Board
     attr_reader :grid
+
+    # Instantiated with a user-specified hash or a default value by empty Cells objects.
+    # = Example
+    #
+    #   Board.new - instantiated with default values
+    #   grid = [
+    #             [x_cell, x_cell, x_cell],
+    #             [y_cell, x_cell, y_cell],
+    #             [y_cell, y_cell, empty_cell]
+    #           ]
+    #  Board.new grid:grid - instantiated with user-specified grid
     def initialize(params={})
       @grid = params.fetch(:grid, default_grid)
     end
 
+    # Asking for a current cell using x,y coordinate system
+    # and filling by the value
     def set_cell(x,y, value)
       get_cell(x,y).value = value
     end
 
+    # Asking for a current Cell using x,y coordinate system
     def get_cell(x, y)
       grid[y][x]
     end
 
+    # Access the grid and return
+    #   1. :winner - if there is a winner of the game
+    #   2. :draw - if the game ended in a tie
+    #   3. false - if the game is still being played
     def game_over
       return :winner if winner?
       return :draw if draw?
